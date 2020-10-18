@@ -3,7 +3,7 @@ import { StyleSheet, Text, View,FlatList, TouchableOpacity  } from 'react-native
 import Data from '../json/matches.json';
 
 
-class Game1 extends Component {
+class Game extends Component {
 
     constructor(props) {
         super(props);
@@ -25,7 +25,7 @@ class Game1 extends Component {
 
         return (
             <View>
-                <FlatList style={{flexDirection:'row'}}
+                <FlatList style={{flexDirection:'row', marginRight:10,marginLeft:10}}
                     data={dataSource}
                     keyExtractor={(item) => item}
                     renderItem={({ item }) => {
@@ -59,4 +59,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Game1;
+export default Game;

@@ -1,43 +1,58 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, FlatList } from 'react-native';
+import { View, StyleSheet, Text, FlatList, ScrollView } from 'react-native';
 import Data from '../json/matches.json';
 import Swiper from 'react-native-swiper';
 import Game from './Game';
+import moment from 'moment';
+import { Header } from 'react-native/Libraries/NewAppScreen';
 
 class Games extends Component {
 
     constructor(props) {
         super(props);
-        this.swiperRef = swiper => this.swiper = swiper
         this.state = {
             dataSource: [],
-            index1: 0
+            index1: 0,
+            matchCount: 3,
+            index2: 0,
         }
+    }
+
+    headerMove(index) {
+        var a = parseInt(index);
+        { a == 297 ? this.setState({ index1: 1 }) : null }
+        { a == 595 ? this.setState({ index1: 2 }) : null }
+        { a == 893 ? this.setState({ index1: 3 }) : null }
+        { a == 1190 ? this.setState({ index1: 4 }) : null }
+        { a == 1472 ? this.setState({ index1: 5 }) : null }
+        { a == 0 ? this.setState({ index1: 0 }) : null }
+    }
+
+    scrollToAll(scrollX, index) {
+        const { matchCount } = this.state;
+        for (var i = 0; i < matchCount; i++) {
+            { i == index ? null : this[`scrollViewRef${i}`].scrollTo({ x: scrollX }) }
+        }
+    }
+
+    changeIndex2(index) {
+        console.log(index)
+        this.setState({
+            index2: index
+        })
     }
 
     componentDidMount() {
         this.setState({
             dataSource: Data.matches
         })
-    }
-
-    indexChanged(index) {
-        console.log(index)
-        const {index1} = this.state;
-        if(index<index1){
-            this.swiper.scrollBy(-1, true)
+        for (var i = 1; i < this.matchCount; i++) {
+            this[`scrollViewRef${i}`] = React.createRef();
         }
-        else if(index>index1){
-            this.swiper.scrollBy(1, true)
-        }
-        this.setState({
-            index1: index
-        })
     }
-
     render() {
 
-        const { dataSource, index1 } = this.state;
+        const { dataSource, index1, index2 } = this.state;
         return (
             <View>
                 <View style={styles.head}>
@@ -49,24 +64,30 @@ class Games extends Component {
                         <View style={styles.headSwiper}>{index1 == 4 ? <Text style={styles.headSwiperTextPicked}>1,5-3,5</Text> : <Text style={styles.headSwiperText}>1,5-3,5</Text>}</View>
                         <View style={styles.headSwiper}>{index1 == 5 ? <Text style={styles.headSwiperTextPicked}>TGA</Text> : <Text style={styles.headSwiperText}>TGA</Text>}</View>
                     </View>
-                    <Swiper  index={index1} dot={<View style={styles.dot}/>} activeDot={<View style={styles.activeDot}/>} >
+                    <Swiper index={index1} dot={<View style={styles.dot} />} activeDot={<View style={styles.activeDot} />} >
                         <View></View><View></View><View></View><View></View><View></View><View></View>
                     </Swiper>
                 </View>
                 <FlatList
                     data={dataSource}
                     keyExtractor={(item) => item.name}
-                    renderItem={({ item }) => {
+                    renderItem={({ item, index }) => {
                         return (
                             <View style={styles.menu} onPress={() => this.openModal(item)}>
                                 <Text style={styles.menuText}>{item.name}</Text>
-                                <Swiper
-                                    onIndexChanged={(index) => this.indexChanged(index)}
-                                    ref={this.swiperRef}
-                                    
-                                    style={styles.wrapper} 
-                                    showsPagination={false}
-                                    loop={false}
+                                <ScrollView style={{ width: '85%' }}
+                                    key={index}
+                                    horizontal
+                                    pagingEnabled
+                                    onMomentumScrollEnd={e => { var index = e.nativeEvent.contentOffset.x; this.headerMove(index) }}
+                                    scrollEnabled
+                                    decelerationRate="fast"
+                                    onTouchStart={()=> this.changeIndex2(index)}
+                                    showsHorizontalScrollIndicator={false}
+                                    scrollEventThrottle={16}
+                                    snapToAlignment='center'
+                                    onScroll={index == index2 ? e => { var scrollX = e.nativeEvent.contentOffset.x; this.scrollToAll(scrollX, index) } : null}
+                                    ref={a => (this[`scrollViewRef${index}`] = a)}
                                 >
                                     <Game items={item.game1} />
                                     <Game items={item.game2} />
@@ -74,7 +95,7 @@ class Games extends Component {
                                     <Game items={item.game4} />
                                     <Game items={item.game5} />
                                     <Game items={item.game6} />
-                                </Swiper>
+                                </ScrollView>
                             </View>
                         )
                     }}
@@ -130,18 +151,18 @@ const styles = StyleSheet.create({
     dot: {
         marginLeft: '7%',
         marginRight: '7%',
-        borderWidth:1,
-        borderColor:'black',
-        width:10,
-        height:1
+        borderWidth: 1,
+        borderColor: 'black',
+        width: 10,
+        height: 1
     },
     activeDot: {
         marginLeft: '7%',
         marginRight: '7%',
-        borderWidth:1,
-        borderColor:'red',
-        width:10,
-        height:1
+        borderWidth: 1,
+        borderColor: 'red',
+        width: 10,
+        height: 1
     },
     headSwiperTextPicked: {
         color: 'red'
