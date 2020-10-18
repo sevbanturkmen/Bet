@@ -3,8 +3,6 @@ import { View, StyleSheet, Text, FlatList, ScrollView } from 'react-native';
 import Data from '../json/matches.json';
 import Swiper from 'react-native-swiper';
 import Game from './Game';
-import moment from 'moment';
-import { Header } from 'react-native/Libraries/NewAppScreen';
 
 class Games extends Component {
 
