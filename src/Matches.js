@@ -17,11 +17,11 @@ class Matches extends Component {
 
     headerMove(index) {
         var a = parseInt(index);
-        { a == 297 ? this.setState({ game: 1 }) : null }
-        { a == 595 ? this.setState({ game: 2 }) : null }
-        { a == 893 ? this.setState({ game: 3 }) : null }
-        { a == 1190 ? this.setState({ game: 4 }) : null }
-        { a == 1472 ? this.setState({ game: 5 }) : null }
+        { a == 300 ? this.setState({ game: 1 }) : null }
+        { a == 600 ? this.setState({ game: 2 }) : null }
+        { a == 900 ? this.setState({ game: 3 }) : null }
+        { a == 1200 ? this.setState({ game: 4 }) : null }
+        { a == 1500 ? this.setState({ game: 5 }) : null }
         { a == 0 ? this.setState({ game: 0 }) : null }
     }
 
@@ -68,7 +68,7 @@ class Matches extends Component {
                         return (
                             <View style={styles.card} onPress={() => this.openModal(item)}>
                                 <Text style={styles.mainText}>{item.name}</Text>
-                                <ScrollView style={{ width: '85%' }}
+                                <ScrollView style={{width:300}}
                                     key={index}
                                     horizontal
                                     pagingEnabled

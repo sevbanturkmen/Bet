@@ -23,7 +23,7 @@ class Rates extends Component {
         const { dataSource } = this.state;
 
         return (
-            <View>
+            <View style={{width:300,alignItems:'center'}}>
                 <FlatList style={styles.flatListStyle}
                     data={dataSource}
                     keyExtractor={(item) => item}
