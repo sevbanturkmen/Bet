@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View,FlatList, TouchableOpacity  } from 'react-native';
 
 
-class Game extends Component {
+class Rates extends Component {
 
     constructor(props) {
         super(props);
@@ -30,8 +30,8 @@ class Game extends Component {
                     renderItem={({ item }) => {
                         return (
                             <View>
-                                <TouchableOpacity style={styles.menu}>
-                                    <Text style={styles.menuText}>{item}</Text>
+                                <TouchableOpacity style={styles.card}>
+                                    <Text>{item}</Text>
                                 </TouchableOpacity>
                             </View>)
                     }}
@@ -43,7 +43,7 @@ class Game extends Component {
 
 
 const styles = StyleSheet.create({
-    menu: {
+    card: {
         height: 40,
         width: 50,
         backgroundColor:'gray',
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Game;
+export default Rates;
